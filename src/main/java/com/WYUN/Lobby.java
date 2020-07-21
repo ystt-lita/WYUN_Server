@@ -23,7 +23,7 @@ public class Lobby implements IReceivedMessageEventListener {
             participants.remove(p);
             // Loby Member Changed!!!
         } else if (m.substring(0, 6).equals("create")) {
-            Room r = new Room(m.substring(7));
+            Room r = new Room(m.substring(7), this);
             rooms.add(r);
             // Room List Changed!!!
             p.LeaveLobby(this);

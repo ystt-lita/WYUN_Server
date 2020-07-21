@@ -40,7 +40,9 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
     public void JoinLobby(IReceivedMessageEventListener l) {
         SendMessage("joinedLobby");
         receiver.AddEventListener(l);
-        receiver.start();
+        if (!receiver.isAlive()) {
+            receiver.start();
+        }
     }
 
     public void LeaveLobby(IReceivedMessageEventListener l) {
