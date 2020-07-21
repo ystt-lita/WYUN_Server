@@ -1,0 +1,11 @@
+version: "2.3"
+services:
+  plantuml:
+    image: plantuml/plantuml-server:jetty
+    ports:
+      - "8080:8080"
+
+  wyun:
+    image: wyun
+    build: ./build/wyun
+    tty: true
