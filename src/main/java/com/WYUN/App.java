@@ -31,9 +31,13 @@ public class App extends Thread {
                 public void run() {
                     while (true) {
                         try {
-                            w.write(s.next());
-                            w.newLine();
-                            w.flush();
+                            if (s.hasNext()) {
+                                w.write(s.nextLine());
+                                w.newLine();
+                                w.flush();
+                            } else {
+                                break;
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -41,7 +45,9 @@ public class App extends Thread {
                 }
 
             }).start();
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             e.printStackTrace();
         }
     }
@@ -52,6 +58,10 @@ public class App extends Thread {
             while (true) {
                 m = r.readLine();
                 System.out.println("message received: " + m);
+                if (m.equals("exit")) {
+                    c.close();
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
