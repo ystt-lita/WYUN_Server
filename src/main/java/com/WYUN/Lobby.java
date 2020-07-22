@@ -1,7 +1,6 @@
 package com.WYUN;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Lobby implements IReceivedMessageEventListener {
     long appID;
@@ -11,25 +10,33 @@ public class Lobby implements IReceivedMessageEventListener {
     Lobby(long id) {
         appID = id;
         participants = new LinkedList<ILobbyParticipant>();
-        rooms = new LinkedList<Room>();
+        rooms = new ArrayList<Room>();
     }
 
     public void Dispatch(ReceivedMessageEvent event) {
-        String m = event.GetMessage();
+        String[] m = event.GetMessage().split(",");
         ILobbyParticipant p = (ILobbyParticipant) event.GetSource();
         System.out.println("[Lobby/" + appID + "]:ReceivedMessage:" + m);
-        if (m.equals("exit")) {
+        if (m[0].equals("exit")) {
             p.ExitLobby(this);
             participants.remove(p);
             // Loby Member Changed!!!
-        } else if (m.substring(0, 6).equals("create")) {
-            Room r = new Room(m.substring(7), this);
+        } else if (m[0].equals("create")) {
+            Room r = new Room(String.join(",", Arrays.asList(m).subList(1, m.length)), this);// この書き方やだ
             rooms.add(r);
             // Room List Changed!!!
             p.LeaveLobby(this);
             r.Add(p.GetClient());
             participants.remove(p);
             // Lobby Member Changed!!!
+        } else if (m[0].equals("join")) {
+            int i = Integer.parseInt(m[1]);
+            // TODO: Roomのバージョン管理
+            // 現状の実装では、クライアントからjoinの送信->ルームリストの更新->joinの受信、の可能性がある
+            // この場合異なる部屋に入る可能性・OutOfBoundsの可能性がある
+            p.LeaveLobby(this);
+            rooms.get(i).Add(p.GetClient());
+            participants.remove(p);
         }
     }
 
