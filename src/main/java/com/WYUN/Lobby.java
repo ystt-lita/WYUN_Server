@@ -13,6 +13,14 @@ public class Lobby implements IReceivedMessageEventListener {
         rooms = new ArrayList<Room>();
     }
 
+    private String SerializeRoomList() {
+        String serialized="";
+        for (Room r : rooms) {
+            serialized+="["+r.GetName()+","+r.GetLimit()+"],";
+        }
+        return serialized.substring(0, serialized.length()-1);
+    }
+
     public void Dispatch(ReceivedMessageEvent event) {
         String[] m = event.GetMessage().split(",");
         ILobbyParticipant p = (ILobbyParticipant) event.GetSource();
@@ -20,6 +28,7 @@ public class Lobby implements IReceivedMessageEventListener {
         if (m[0].equals("exit")) {
             p.ExitLobby(this);
             participants.remove(p);
+            // TODO: ルームが空になったら削除
             // Loby Member Changed!!!
         } else if (m[0].equals("create")) {
             Room r = new Room(String.join(",", Arrays.asList(m).subList(1, m.length)), this);// この書き方やだ

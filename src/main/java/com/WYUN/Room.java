@@ -5,12 +5,23 @@ import java.util.*;
 public class Room implements IReceivedMessageEventListener {
     // RoomOptions options;
     List<IRoomParticipant> participants;
+    String name;
+    int attendanceLimit;
     Lobby parentLobby;
 
     Room(String o, Lobby p) {
+        String[] options=o.split(",");
+        name=options[0];
+        attendanceLimit=Integer.parseInt(options[1]);
         parentLobby = p;
         // options=DeserializeOptions(o);
         participants = new LinkedList<IRoomParticipant>();
+    }
+    public String GetName() {
+        return name;
+    }
+    public int GetLimit() {
+        return attendanceLimit;
     }
 
     public void Dispatch(ReceivedMessageEvent event) {
