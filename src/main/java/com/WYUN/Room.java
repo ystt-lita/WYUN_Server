@@ -1,7 +1,6 @@
 package com.WYUN;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Room implements IReceivedMessageEventListener {
     // RoomOptions options;
@@ -15,13 +14,25 @@ public class Room implements IReceivedMessageEventListener {
     }
 
     public void Dispatch(ReceivedMessageEvent event) {
-        String m = event.GetMessage();
+        String[] m = event.GetMessage().split(",");
         IRoomParticipant p = (IRoomParticipant) event.GetSource();
         System.out.println("[Room]message received: " + m);
-        if (m.equals("leave")) {
+        if (m[0].equals("leave")) {
             p.LeaveRoom(this);
             parentLobby.Add(p.GetClient());
             participants.remove(p);
+        } else if (m[0].equals("broad")) {
+            for (IRoomParticipant participant : participants) {
+                participant.TellMessage(p.GetClient().name, String.join(",", Arrays.asList(m).subList(1, m.length)));
+            }
+        } else if (m[0].equals("tell")) {
+            for (IRoomParticipant participant : participants) {
+                if (participant.GetClient().name.equals(m[1])) {
+                    participant.TellMessage(p.GetClient().name,
+                            String.join(",", Arrays.asList(m).subList(2, m.length)));
+                    break;
+                }
+            }
         }
     }
 

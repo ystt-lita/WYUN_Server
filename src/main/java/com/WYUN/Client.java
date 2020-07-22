@@ -37,6 +37,10 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         }
     }
 
+    public void TellMessage(String source, String message) {
+        SendMessage(String.join(",", "tell", source, message));
+    }
+
     public void JoinLobby(IReceivedMessageEventListener l) {
         SendMessage("joinedLobby");
         receiver.AddEventListener(l);
