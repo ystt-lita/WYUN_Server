@@ -13,33 +13,25 @@ public class Lobby implements IReceivedMessageEventListener {
         rooms = new ArrayList<Room>();
     }
 
-    private String SerializeRoomList() {
-        String serialized="";
-        for (Room r : rooms) {
-            serialized+="["+r.GetName()+","+r.GetLimit()+"],";
-        }
-        return serialized.substring(0, serialized.length()-1);
-    }
-
     public void Dispatch(ReceivedMessageEvent event) {
-        String[] m = event.GetMessage().split(",");
+        String m = event.GetMessage();
         ILobbyParticipant p = (ILobbyParticipant) event.GetSource();
         System.out.println("[Lobby/" + appID + "]:ReceivedMessage:" + m);
-        if (m[0].equals("exit")) {
+        if (m.equals("exit")) {
             p.ExitLobby(this);
             participants.remove(p);
             // TODO: ルームが空になったら削除
             // Loby Member Changed!!!
-        } else if (m[0].equals("create")) {
-            Room r = new Room(String.join(",", Arrays.asList(m).subList(1, m.length)), this);// この書き方やだ
+        } else if (m.substring(0,6).equals("create")) {
+            Room r = new Room(m.substring(7), this);
             rooms.add(r);
             // Room List Changed!!!
             p.LeaveLobby(this);
             r.Add(p.GetClient());
             participants.remove(p);
             // Lobby Member Changed!!!
-        } else if (m[0].equals("join")) {
-            int i = Integer.parseInt(m[1]);
+        } else if (m.substring(0,4).equals("join")) {
+            int i = Integer.parseInt(m.substring(5));
             // TODO: Roomのバージョン管理
             // 現状の実装では、クライアントからjoinの送信->ルームリストの更新->joinの受信、の可能性がある
             // この場合異なる部屋に入る可能性・OutOfBoundsの可能性がある
