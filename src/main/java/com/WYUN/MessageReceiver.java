@@ -28,7 +28,7 @@ public class MessageReceiver extends Thread {
         listeners = new LinkedList<IReceivedMessageEventListener>();
 
         try {
-            buff = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            buff = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

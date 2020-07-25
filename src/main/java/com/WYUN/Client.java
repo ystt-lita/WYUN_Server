@@ -15,7 +15,7 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         client = s;
         receiver = new MessageReceiver(this, s);
         try {
-            wBuff = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+            wBuff = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), "UTF-8"));
             SendMessage("connected");
             name = receiver.GetMessage();
             appID = Long.parseLong(receiver.GetMessage());
@@ -47,6 +47,10 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         if (!receiver.isAlive()) {
             receiver.start();
         }
+    }
+
+    public void UpdateRoomList(String list) {
+        SendMessage("roomList," + list);
     }
 
     public void LeaveLobby(IReceivedMessageEventListener l) {

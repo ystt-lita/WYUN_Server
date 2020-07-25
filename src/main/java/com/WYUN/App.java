@@ -18,15 +18,19 @@ public class App extends Thread {
     Scanner s;
 
     public static void main(String[] args) {
-        new App().start();
+        if (args[0].equals("App")) {
+            new App().start();
+        } else if (args[0].equals("Server")) {
+            new Server();
+        }
     }
 
     App() {
         try {
             s = new Scanner(System.in);
             c = new Socket("wyun_wyun_1", 8929);
-            r = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            w = new BufferedWriter(new OutputStreamWriter(c.getOutputStream()));
+            r = new BufferedReader(new InputStreamReader(c.getInputStream(), "UTF-8"));
+            w = new BufferedWriter(new OutputStreamWriter(c.getOutputStream(), "UTF-8"));
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {

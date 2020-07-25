@@ -7,5 +7,7 @@ public interface ILobbyParticipant {
 
     public void JoinLobby(IReceivedMessageEventListener l);
 
+    public void UpdateRoomList(String list);
+
     public Client GetClient();
 }

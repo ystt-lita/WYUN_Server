@@ -8,9 +8,9 @@ public class Server {
     ServerSocket s;
     HashMap<Long, Lobby> lobbies;
 
-    public static void main(String[] args) {
-        new Server();
-    }
+    // public static void main(String[] args) {
+    // new Server();
+    // }
 
     Server() {
         lobbies = new HashMap<Long, Lobby>();

@@ -13,14 +13,14 @@ public class Room implements IReceivedMessageEventListener {
     RoomOption roomOption;
 
     Room(String o, Lobby p) {
-        System.out.println("optionJson: "+o);
+        System.out.println("optionJson: " + o);
         try {
-            roomOption = new ObjectMapper().readValue(o, com.WYUN.RoomOption.class);
+            roomOption = new ObjectMapper().readValue(o, RoomOption.class);
         } catch (JsonParseException jpException) {
             jpException.printStackTrace();
-        }catch(JsonMappingException jmException){
+        } catch (JsonMappingException jmException) {
             jmException.printStackTrace();
-        }catch(IOException ioException){
+        } catch (IOException ioException) {
             ioException.printStackTrace();
         }
         parentLobby = p;
