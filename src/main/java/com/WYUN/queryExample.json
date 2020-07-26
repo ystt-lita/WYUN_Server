@@ -1,0 +1,26 @@
+{
+    "queries": [
+        {
+            "query": "create",
+            "name": "test",
+            "option": {
+                "limit": 5
+            }
+        },
+        {
+            "query": "join",
+            "name": "test"
+        },
+        {
+            "query": "tell",
+            "to": "ddd",
+            "body": "testMessage to ddd."
+        },
+        {
+            "query": "leave"
+        },
+        {
+            "query": "exit"
+        }
+    ]
+}

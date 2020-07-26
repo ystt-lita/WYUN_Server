@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.*;
 @JsonPropertyOrder({ "rooms" })
 public class RoomList {
     @JsonProperty("rooms")
-    public List<RoomOption> rooms;
+    public List<CreateQuery> rooms;
 
     public RoomList() {
         rooms = new ArrayList<>();
     }
 
-    public RoomList withElement(RoomOption element) {
+    public RoomList withElement(CreateQuery element) {
         this.rooms.add(element);
         return this;
     }

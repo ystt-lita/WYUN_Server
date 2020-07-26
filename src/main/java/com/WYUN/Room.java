@@ -1,39 +1,24 @@
 package com.WYUN;
 
-import java.io.IOException;
 import java.util.*;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
 
 public class Room implements IReceivedMessageEventListener {
     // RoomOptions options;
     List<IRoomParticipant> participants;
     Lobby parentLobby;
-    RoomOption roomOption;
+    Option roomOption;
 
-    Room(String o, Lobby p) {
+    Room(Option o, Lobby p) {
         System.out.println("optionJson: " + o);
-        try {
-            roomOption = new ObjectMapper().readValue(o, RoomOption.class);
-        } catch (JsonParseException jpException) {
-            jpException.printStackTrace();
-        } catch (JsonMappingException jmException) {
-            jmException.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+            roomOption = o;
         parentLobby = p;
         // options=DeserializeOptions(o);
         participants = new LinkedList<IRoomParticipant>();
     }
 
-    public String GetName() {
-        return roomOption.option.name;
-    }
-
     public int GetLimit() {
-        return roomOption.option.limit;
+        return roomOption.limit;
     }
 
     public void Dispatch(ReceivedMessageEvent event) {

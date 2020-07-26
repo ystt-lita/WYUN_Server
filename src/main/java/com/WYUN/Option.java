@@ -13,17 +13,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Option {
 
-    @JsonProperty("name")
-    public String name;
     @JsonProperty("owner")
     public String owner;
     @JsonProperty("limit")
     public Integer limit;
-
-    public Option withName(String name) {
-        this.name = name;
-        return this;
-    }
 
     public Option withOwner(String owner) {
         this.owner = owner;
