@@ -3,10 +3,8 @@ package com.WYUN;
 import java.io.IOException;
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
 
 public class Lobby implements IReceivedMessageEventListener {
     long appID;
@@ -86,8 +84,12 @@ public class Lobby implements IReceivedMessageEventListener {
         participants.add(cl);
         try {
             cl.UpdateRoomList(new ObjectMapper().writeValueAsString(rList));
-        } catch (JsonProcessingException jpException) {
+        } catch (JsonParseException jpException) {
             jpException.printStackTrace();
+        }catch(JsonMappingException jmException){
+            jmException.printStackTrace();
+        }catch(IOException ioException){
+            ioException.printStackTrace();
         }
         // Joined Lobby!!!
         // Lobby Member Changed!!!
