@@ -52,7 +52,7 @@ public class Room implements IReceivedMessageEventListener {
                 try {
                     TellQuery query = new ObjectMapper().readValue(m, TellQuery.class);
                     for (IRoomParticipant participant : participants) {
-                        if (participant.GetClient().name.equals(query.to)) {
+                        if (participant.GetClient().name.equals(query.dest)) {
                             participant.TellMessage(p.GetClient().name, query.body);
                             break;
                         }

@@ -12,12 +12,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TellQuery {
     @JsonProperty("to")
-    public String to;
+    public String dest;
     @JsonProperty("body")
     public String body;
 
     public TellQuery withDest(String name){
-        this.to=name;
+        this.dest=name;
         return this;
     }
     public TellQuery withBody(String body){
