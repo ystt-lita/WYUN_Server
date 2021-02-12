@@ -10,10 +10,13 @@ public class Room implements IReceivedMessageEventListener {
     // RoomOptions options;
     List<IRoomParticipant> participants;
     Lobby parentLobby;
-    Option roomOption;
+    CreateQuery roomOption;
 
-    Room(Option o, Lobby p) {
-        System.out.println("optionJson: " + o);
+    Room(CreateQuery o, Lobby p) {
+        try {
+            System.out.println("optionJson: " + new ObjectMapper().writeValueAsString(o));
+        } catch (JsonProcessingException jpe) {
+        }
         roomOption = o;
         parentLobby = p;
         // options=DeserializeOptions(o);
@@ -27,7 +30,7 @@ public class Room implements IReceivedMessageEventListener {
     public void Dispatch(ReceivedMessageEvent event) {
         String m = event.GetMessage();
         IRoomParticipant p = (IRoomParticipant) event.GetSource();
-        System.out.println("[Room]message received: " + m);
+        System.out.println("[Room/" + roomOption.name + "]message received: " + m);
         try {
             Query q = new ObjectMapper().readValue(m, Query.class);
             if (q.query.equals("leave")) {
@@ -75,7 +78,7 @@ public class Room implements IReceivedMessageEventListener {
     }
 
     public void Add(IRoomParticipant p) {
-        System.out.println("adding client");
+        System.out.println("[Room/" + roomOption.name + "]adding client");
         p.JoinRoom(this);
         participants.add(p);
         // Room Member Changed!!!
