@@ -1,14 +1,9 @@
 package com.WYUN;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "to","body"
-})
+@JsonPropertyOrder({ "to", "body" })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TellQuery {
     @JsonProperty("to")
