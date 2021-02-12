@@ -52,6 +52,10 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         SendMessage("roomList," + list);
     }
 
+    public void UpdateLobbyMember(String list) {
+        SendMessage("lobbyMember," + list);
+    }
+
     public void LeaveLobby(IReceivedMessageEventListener l) {
         SendMessage("leftLobby");
         receiver.RemoveEventListener(l);

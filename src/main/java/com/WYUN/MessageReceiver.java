@@ -48,26 +48,38 @@ public class MessageReceiver extends Thread {
         }
     }
 
+    class ListenerDispatcher extends Thread {
+        ReceivedMessageEvent event;
+        IReceivedMessageEventListener listener;
+
+        public ListenerDispatcher(IReceivedMessageEventListener l, ReceivedMessageEvent e) {
+            event = e;
+            listener = l;
+        }
+
+        public void run() {
+            listener.Dispatch(event);
+        }
+    }
+
     public void run() {
         while (true) {
             try {
-                e = new ReceivedMessageEvent(source, buff.readLine());
+                e = new ReceivedMessageEvent(source, buff.readLine().split("\r")[0]);
                 System.out.println("received message: " + e.GetMessage());
                 System.out.println("firing event.");
                 synchronized (listeners) {
                     for (IReceivedMessageEventListener listener : listeners) {
-                        new Thread(() -> {
-                            listener.Dispatch(e);
-                        }).start();
+                        new ListenerDispatcher(listener, e).start();
                     }
-                }
-                if (e.GetMessage().equals("exit")) {
-                    System.out.println("exit receiver loop.");
-                    break;
                 }
 
             } catch (IOException ioException) {
-                ioException.printStackTrace();
+                break;
+            }
+            if (e.GetMessage() == null || e.GetMessage().equals("exit")) {
+                System.out.println("exit receiver loop.");
+                break;
             }
         }
 

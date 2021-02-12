@@ -11,12 +11,13 @@ public class TellQuery {
     @JsonProperty("body")
     public String body;
 
-    public TellQuery withDest(String name){
-        this.dest=name;
+    public TellQuery withDest(String name) {
+        this.dest = name;
         return this;
     }
-    public TellQuery withBody(String body){
-        this.body=body;
+
+    public TellQuery withBody(String body) {
+        this.body = body;
         return this;
     }
 }

@@ -9,5 +9,7 @@ public interface ILobbyParticipant {
 
     public void UpdateRoomList(String list);
 
+    public void UpdateLobbyMember(String list);
+
     public Client GetClient();
 }
