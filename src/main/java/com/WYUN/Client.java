@@ -59,15 +59,18 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
 
     public void ExitLobby(IReceivedMessageEventListener l) {
         SendMessage("exit");
+        receiver.RemoveEventListener(l);
+        close();
+    }
+
+    public void close() {
         try {
             receiver.close();
-            receiver.RemoveEventListener(l);
             System.out.println("receiver joined.");
             client.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-
     }
 
     public Client GetClient() {
@@ -79,8 +82,22 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         receiver.AddEventListener(room);
     }
 
-    public void LeaveRoom(IReceivedMessageEventListener listener) {
+    public void UpdateRoomOption(String option) {
+        SendMessage("roomOption," + option);
+    }
+
+    public void UpdateRoomMember(String list) {
+        SendMessage("roomMember," + list);
+    }
+
+    public void LeaveRoom(IReceivedMessageEventListener l) {
         SendMessage("leftRoom");
-        receiver.RemoveEventListener(listener);
+        receiver.RemoveEventListener(l);
+    }
+
+    public void ExitRoom(IReceivedMessageEventListener l) {
+        SendMessage("exit");
+        receiver.RemoveEventListener(l);
+        close();
     }
 }
