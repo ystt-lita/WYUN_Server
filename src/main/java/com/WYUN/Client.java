@@ -28,8 +28,7 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
 
     public void SendMessage(String message) {
         try {
-            wBuff.write(message);
-            wBuff.newLine();
+            wBuff.write(message + "\r\n");
             wBuff.flush();
             System.out.println("sent message: " + message);
         } catch (IOException ioException) {

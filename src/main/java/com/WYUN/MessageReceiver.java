@@ -77,7 +77,8 @@ public class MessageReceiver extends Thread {
         if (this.isAlive())
             return null;
         try {
-            return buff.readLine();
+            return buff.readLine().split("\r")[0];
+
         } catch (IOException ioException) {
             ioException.printStackTrace();
             // System.exit(-1);
