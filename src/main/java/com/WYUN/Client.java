@@ -61,6 +61,8 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         receiver.RemoveEventListener(l);
     }
 
+    public void NotifyError(String errorMessage) {
+        SendMessage("error," + errorMessage);
     }
 
     public void close() {

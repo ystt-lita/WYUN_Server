@@ -46,6 +46,10 @@ public class Lobby implements IReceivedMessageEventListener {
             } else if (query.query.equals("create")) {
                 try {
                     CreateQuery q = new ObjectMapper().readValue(m, CreateQuery.class);
+                    if (roomsMap.containsKey(q.name)) {
+                        p.NotifyError("Already exist room with this name");
+                        return;
+                    }
                     Room r = new Room(q, this);
                     roomsMap.put(q.name, r);
                     rooms.add(r);
@@ -67,6 +71,10 @@ public class Lobby implements IReceivedMessageEventListener {
                     // TODO: Roomのバージョン管理
                     // 現状の実装では、クライアントからjoinの送信->ルームリストの更新->joinの受信、の可能性がある
                     // この場合異なる部屋に入る可能性・OutOfBoundsの可能性がある
+                    if (!roomsMap.containsKey(q.name)) {
+                        p.NotifyError("No room with this name");
+                        return;
+                    }
                     p.LeaveLobby(this);
                     roomsMap.get(q.name).Add(p.GetClient());
                     participants.remove(p);
