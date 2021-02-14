@@ -61,10 +61,6 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         receiver.RemoveEventListener(l);
     }
 
-    public void ExitLobby(IReceivedMessageEventListener l) {
-        SendMessage("exit");
-        receiver.RemoveEventListener(l);
-        close();
     }
 
     public void close() {
@@ -99,7 +95,7 @@ public class Client implements ILobbyParticipant, IRoomParticipant {
         receiver.RemoveEventListener(l);
     }
 
-    public void ExitRoom(IReceivedMessageEventListener l) {
+    public void Exit(IReceivedMessageEventListener l) {
         SendMessage("exit");
         receiver.RemoveEventListener(l);
         close();

@@ -49,7 +49,7 @@ public class Room implements IReceivedMessageEventListener {
                 MemberUpdate();
                 parentLobby.Add(p.GetClient());
             } else if (q.query.equals("exit")) {
-                p.ExitRoom(this);
+                p.Exit(this);
                 participants.remove(p);
                 RefleshMember();
                 MemberUpdate();

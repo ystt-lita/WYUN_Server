@@ -1,7 +1,6 @@
 package com.WYUN;
 
-public interface ILobbyParticipant {
-    public void ExitLobby(IReceivedMessageEventListener l);
+public interface ILobbyParticipant extends IGameClient {
 
     public void LeaveLobby(IReceivedMessageEventListener l);
 

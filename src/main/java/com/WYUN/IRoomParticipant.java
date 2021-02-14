@@ -1,11 +1,9 @@
 package com.WYUN;
 
-public interface IRoomParticipant {
+public interface IRoomParticipant extends IGameClient {
     public void JoinRoom(IReceivedMessageEventListener l);
 
     public void LeaveRoom(IReceivedMessageEventListener listener);
-
-    public void ExitRoom(IReceivedMessageEventListener listener);
 
     public void UpdateRoomOption(String option);
 

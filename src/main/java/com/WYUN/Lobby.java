@@ -38,7 +38,7 @@ public class Lobby implements IReceivedMessageEventListener {
             Query query = new ObjectMapper().readValue(m, Query.class);
             ILobbyParticipant p = (ILobbyParticipant) event.GetSource();
             if (query.query.equals("exit")) {
-                p.ExitLobby(this);
+                p.Exit(this);
                 participants.remove(p);
                 // TODO: ルームが空になったら削除
                 // Loby Member Changed!!!
