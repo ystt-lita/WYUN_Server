@@ -36,7 +36,7 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 [`broad`]()、[`tell`]()、[`roomMember`]()、[`roomOption`]()、[`leave`]()、[`exit`]()
 
 ## ライセンス
-未定
+[GNU GPL v3](LICENSE)
 ## リンク
 * [Wiki]()
 * [WYUN Library]()
