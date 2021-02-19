@@ -75,6 +75,10 @@ public class Lobby implements IReceivedMessageEventListener {
                         p.NotifyError("No room with this name");
                         return;
                     }
+                    if (roomsMap.get(q.name).Capacity() == 0) {
+                        p.NotifyError("Hitting room Limit");
+                        return;
+                    }
                     p.LeaveLobby(this);
                     roomsMap.get(q.name).Add(p.GetClient());
                     participants.remove(p);

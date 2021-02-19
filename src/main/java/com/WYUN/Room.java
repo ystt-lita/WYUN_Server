@@ -129,4 +129,8 @@ public class Room implements IReceivedMessageEventListener {
         RefleshMember();
         MemberUpdate();
     }
+
+    public int Capacity() {
+        return roomOption.limit - mList.members.size();
+    }
 }
