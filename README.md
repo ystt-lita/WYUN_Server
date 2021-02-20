@@ -39,5 +39,4 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 [GNU GPL v3](LICENSE)
 ## リンク
 * [Wiki]()
-* [WYUN Library]()
-* a
+* [WYUN Library](https://github.com/ystt-lita/WYUN_Library)
