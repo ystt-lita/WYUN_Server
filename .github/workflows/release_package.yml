@@ -20,7 +20,7 @@ jobs:
       with:
         java-version: 14
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package assembly:single --file pom.xml
     - uses: actions/setup-go@v2
       with:
         go-version: '^1.13.1' # The Go version to download (if necessary) and use.
