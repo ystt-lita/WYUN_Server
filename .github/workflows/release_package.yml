@@ -32,6 +32,6 @@ jobs:
       run: |
         export EVENT_REF_TYPE=$(jq --raw-output .ref_type "$GITHUB_EVENT_PATH")
         export TAGNAME=$(jq --raw-output .ref "$GITHUB_EVENT_PATH")
-        if["$EVENT_REF_TYPE"!="tag"];then export TAGNAME="releaseTest";fi
+        if["$EVENT_REF_TYPE" != "tag"]; then export TAGNAME="releaseTest";fi
         go get -u github.com/tcnksm/ghr
         ghr -n ${TAGNAME} -b "Release ${TAGNAME}" target/wyun.jar
