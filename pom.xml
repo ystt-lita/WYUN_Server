@@ -94,6 +94,8 @@
                                 <mainClass>com.WYUN.App</mainClass>
                             </manifest>
                         </archive>
+                        <finalName>wyun</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
                     </configuration>
                 </plugin>
             </plugins>
