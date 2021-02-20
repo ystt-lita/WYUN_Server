@@ -34,7 +34,10 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 [`joinedRoom`](doc/in_room.md#joinedRoom)、[`roomMember`](doc/in_room.md#roomMember)、[`roomOption`](doc/in_room.md#roomOption)、[`tell`](doc/in_room.md#tell)、[`leftRoom`](doc/in_room.md#leftRoom)、[`exit`](doc/in_room.md#exit)、[`error`](doc/in_room.md#error)
 #### クライアント→サーバー
 [`broad`](doc/in_room.md#broad)、[`tell`](doc/in_room.md#tell-1)、[`roomMember`](doc/in_room.md#roomMember)、[`roomOption`](doc/in_room.md#roomOption)、[`leave`](doc/in_room.md#leave)、[`exit`](doc/in_room.md#exit-1)
-
+## 注意事項
+このサーバープログラムには通信の保護手段やアクセス制御が特に実装されていません。  
+公開インターネットにつながるコンピュータ上で実行した場合に生じるいかなる損害も作者は負うことができません。  
+ご理解の上使用してください。
 ## ライセンス
 [GNU GPL v3](LICENSE)
 ## リンク
