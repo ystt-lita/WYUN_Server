@@ -21,7 +21,7 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 サーバーは受信するメッセージがCRLF`\r\n`で区切られているとassumeします。  
 ### クライアントからサーバーへの接続
 #### サーバー→クライアント
-[`connected`](doc/connecting.md#connected)
+[`connected`](doc/connecting.md#%E6%8E%A5%E7%B6%9A%E7%A2%BA%E7%AB%8B%E5%BE%85%E3%81%A1%E7%8A%B6%E6%85%8B)
 #### クライアント→サーバー
 プレイヤー名(String)、アプリケーションID(Integer)
 ### ロビー内
