@@ -26,12 +26,12 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 プレイヤー名(String)、アプリケーションID(Integer)
 ### ロビー内
 #### サーバー→クライアント
-[`joinedLobby`]()、[`roomList`]()、[`lobbyMember`]()、[`leftLobby`]()、[`exit`]()
+[`joinedLobby`]()、[`roomList`]()、[`lobbyMember`]()、[`leftLobby`]()、[`exit`]()、[`error`]()
 #### クライアント→サーバー
 [`join`]()、[`create`]()、[`roomList`]()、[`exit`]()
 ### ルーム内
 #### サーバー→クライアント
-[`joinedRoom`]()、[`roomMember`]()、[`roomOption`]()、[`leftRoom`]()、[`exit`]()
+[`joinedRoom`]()、[`roomMember`]()、[`roomOption`]()、[`leftRoom`]()、[`exit`]()、[`error`]()
 #### クライアント→サーバー
 [`broad`]()、[`tell`]()、[`roomMember`]()、[`roomOption`]()、[`leave`]()、[`exit`]()
 
