@@ -21,19 +21,19 @@ localhostのポート8929に自動で接続します。他のデバイス上で�
 サーバーは受信するメッセージがCRLF`\r\n`で区切られているとassumeします。  
 ### クライアントからサーバーへの接続
 #### サーバー→クライアント
-[`connected`](doc/connecting.md#%E6%8E%A5%E7%B6%9A%E7%A2%BA%E7%AB%8B%E5%BE%85%E3%81%A1%E7%8A%B6%E6%85%8B)
+[`connected`](../../wiki/接続確立待ち状態)
 #### クライアント→サーバー
 プレイヤー名(String)、アプリケーションID(Integer)
 ### ロビー内
 #### サーバー→クライアント
-[`joinedLobby`](doc/in_lobby.md#joinedLobby)、[`roomList`](doc/in_lobby.md#roomList)、[`lobbyMember`](doc/in_lobby.md#lobbyMember)、[`leftLobby`](doc/in_lobby.md#leftLobby)、[`exit`](doc/in_lobby.md#exit)、[`error`](doc/in_lobby.md#error)
+[`joinedLobby`](../../wiki/ロビー内状態#joinedLobby)、[`roomList`](../../wiki/ロビー内状態#roomList)、[`lobbyMember`](../../wiki/ロビー内状態#lobbyMember)、[`leftLobby`](../../wiki/ロビー内状態#leftLobby)、[`exit`](../../wiki/ロビー内状態#exit)、[`error`](../../wiki/ロビー内状態#error)
 #### クライアント→サーバー
-[`join`](doc/in_lobby.md#join)、[`create`](doc/in_lobby.md#create)、[`roomList`](doc/in_lobby.md#roomList-1)、[`exit`](doc/in_lobby.md#exit-1)
+[`join`](../../wiki/ロビー内状態#join)、[`create`](../../wiki/ロビー内状態#create)、[`roomList`](../../wiki/ロビー内状態#roomList-1)、[`exit`](../../wiki/ロビー内状態#exit-1)
 ### ルーム内
 #### サーバー→クライアント
-[`joinedRoom`](doc/in_room.md#joinedRoom)、[`roomMember`](doc/in_room.md#roomMember)、[`roomOption`](doc/in_room.md#roomOption)、[`tell`](doc/in_room.md#tell)、[`leftRoom`](doc/in_room.md#leftRoom)、[`exit`](doc/in_room.md#exit)、[`error`](doc/in_room.md#error)
+[`joinedRoom`](../../wiki/ルーム内状態#joinedRoom)、[`roomMember`](../../wiki/ルーム内状態#roomMember)、[`roomOption`](../../wiki/ルーム内状態#roomOption)、[`tell`](../../wiki/ルーム内状態#tell)、[`leftRoom`](../../wiki/ルーム内状態#leftRoom)、[`exit`](../../wiki/ルーム内状態#exit)、[`error`](../../wiki/ルーム内状態#error)
 #### クライアント→サーバー
-[`broad`](doc/in_room.md#broad)、[`tell`](doc/in_room.md#tell-1)、[`roomMember`](doc/in_room.md#roomMember)、[`roomOption`](doc/in_room.md#roomOption)、[`leave`](doc/in_room.md#leave)、[`exit`](doc/in_room.md#exit-1)
+[`broad`](../../wiki/ルーム内状態#broad)、[`tell`](../../wiki/ルーム内状態#tell-1)、[`roomMember`](../../wiki/ルーム内状態#roomMember)、[`roomOption`](../../wiki/ルーム内状態#roomOption)、[`leave`](../../wiki/ルーム内状態#leave)、[`exit`](../../wiki/ルーム内状態#exit-1)
 ## 注意事項
 このサーバープログラムには通信の保護手段やアクセス制御が特に実装されていません。  
 公開インターネットにつながるコンピュータ上で実行した場合に生じるいかなる損害も作者は負うことができません。  
