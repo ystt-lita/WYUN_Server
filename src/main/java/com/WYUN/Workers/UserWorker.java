@@ -36,6 +36,26 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
         return new Random().nextInt();
     }
 
+    /**
+     * login to WYUN by name
+     * <h4>Endpoint</h4>
+     * <div>/api/user/login</div>
+     * <p/>
+     * <h4>Query Parameters</h4>
+     * <div>name: {@code string}</div>
+     * <div>specifies user name</div>
+     * <p/>
+     * 
+     * @param name not {@code null}
+     * @return
+     *         <p>
+     *         {@code Result.Success} if no user logged in with specified name.
+     *         UserID will be provided.
+     *         </p>
+     *         <p>
+     *         {@code Result.Failed} in other cases. UserID does not provided.
+     *         </p>
+     */
     public LoginResult login(String name) {
         try {
             checkAlreadyLoggedIn.setString(1, name);
@@ -58,6 +78,26 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
 
     }
 
+    /**
+     * logout from WYUN by UserID
+     * <h4>Endpoint</h4>
+     * <div>/api/user/logout</div>
+     * <p/>
+     * <h4>Query Parameters</h4>
+     * <div>UserID: {@code number}</div>
+     * <div>specifies user to logout</div>
+     * <p/>
+     * 
+     * @param UserID provided via LoginResult
+     * @return
+     *         <p>
+     *         {@code Result.Success} if exists user logged in with specified
+     *         UserID.
+     *         </p>
+     *         <p>
+     *         {@code Result.Failed} in other cases.
+     *         </p>
+     */
     public LogoutResult logout(int UserID) {
         try {
             findUserWithID.setInt(1, UserID);
