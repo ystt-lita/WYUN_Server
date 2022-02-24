@@ -18,12 +18,13 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
     Connection users;
 
     public UserWorker() {
-        try (Connection _users = DriverManager.getConnection("url")) {
-            users = _users;
-            checkAlreadyLoggedIn = users.prepareStatement("Select name From users Where name = ?");// すでにログインしているか
-            findUserWithID = users.prepareStatement("Select * From users Where UserID = ?");// UserIDからログイン済みユーザーを検索
-            insertNewUser = users.prepareStatement("Insert users Set UserID = ? name = ?");// UserIDを振って追加
-            removeExistingUser = users.prepareStatement("Delete From users Where UserID = ?");// UserIDで指定したユーザーを削除
+        try {
+            users = DriverManager.getConnection("jdbc:mysql://wyun_server_db_1:3306/userservice", "root", "root");
+            // users = _users;
+            checkAlreadyLoggedIn = users.prepareStatement("Select name From users Where name = ?;");// すでにログインしているか
+            findUserWithID = users.prepareStatement("Select * From users Where UserID = ?;");// UserIDからログイン済みユーザーを検索
+            insertNewUser = users.prepareStatement("Insert users Values (?, ?);");// UserIDを振って追加
+            removeExistingUser = users.prepareStatement("Delete From users Where UserID = ?;");// UserIDで指定したユーザーを削除
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -38,7 +39,7 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
     public LoginResult login(String name) {
         try {
             checkAlreadyLoggedIn.setString(1, name);
-            if (checkAlreadyLoggedIn.execute()) {// すでにログインしているのでダメ
+            if (checkAlreadyLoggedIn.executeQuery().next()) {// すでにログインしているのでダメ
 
             } else {
                 int id = genID();
@@ -60,7 +61,7 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
     public LogoutResult logout(int UserID) {
         try {
             findUserWithID.setInt(1, UserID);
-            if (findUserWithID.execute()) {
+            if (findUserWithID.executeQuery().next()) {
                 removeExistingUser.setInt(1, UserID);
                 removeExistingUser.executeUpdate();
                 // TODO response to API call
