@@ -7,6 +7,8 @@ services:
 
   wyun:
     platform: linux/arm64/v8
+    volumes:
+      - ~/.ssh:/root/.ssh
     build:
       context: .
       dockerfile: build/wyun/Dockerfile
