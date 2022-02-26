@@ -1,8 +1,19 @@
 package com.WYUN.Services;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.Scanner;
+
 import com.WYUN.Utils.LoginResult;
 import com.WYUN.Utils.LogoutResult;
 import com.WYUN.Workers.IUserWorker;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 //
 /**
@@ -16,36 +27,140 @@ import com.WYUN.Workers.IUserWorker;
  * 
  */
 
-public class UserService implements IUserService {
-    class UserWorkerGateway implements IUserWorker {
+class UserQueryResult {
+    public boolean result;
+    public int userID;
+    public String cause;
+}
 
-        public LoginResult login(String name) {
-            // TODO call api/user/login
-            // MEMO Publish by push
-            return new LoginResult().WithCode(LoginResult.ResultCode.Failed);
+public class UserService implements IUserService {
+    class UserWorkerCommunicater implements IUserWorker {
+        Socket s;
+        BufferedWriter writer;
+        BufferedReader reader;
+
+        public UserWorkerCommunicater(String host) {
+            try {
+                s = new Socket(host, 8940);
+                writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+                reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
-        public LogoutResult logout(int UserID) {
+        public LoginResult login(String name) {
+
+            try {
+                writer.write("{\"type\":\"login\",\"name\":\"" + name + "\"}");
+                writer.newLine();
+                writer.flush();
+                UserQueryResult result = new ObjectMapper().readValue(reader.readLine(), UserQueryResult.class);
+                LoginResult r = new LoginResult().Succeed(result.result);
+                if (result.result) {
+                    return r.WithID(result.userID);
+                }
+                return r;
+            } catch (JsonMappingException e) {// 送られてきたレスポンスが変
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JsonProcessingException e) {// 送られてきたレスポンスが変
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {// socket closed?
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            // TODO call api/user/login
+            // MEMO Publish by push
+            return new LoginResult().Succeed(false);
+        }
+
+        public LogoutResult logout(int userID) {
+            try {
+                writer.write("{\"type\":\"logout\",\"userID\":" + userID + "}");
+                writer.newLine();
+                writer.flush();
+                UserQueryResult result;
+                result = new ObjectMapper().readValue(reader.readLine(), UserQueryResult.class);
+                return new LogoutResult().Succeed(result.result);
+
+            } catch (JsonMappingException e) {
+                // TODO: handle exception
+            } catch (JsonProcessingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             // TODO call api/user/logout
-            return new LogoutResult().WithCode(LogoutResult.ResultCode.Failed);
+            return new LogoutResult().Succeed(false);
         }
     }
 
     // TODO Workerを直接持たない
-    UserWorkerGateway currentWorker;
+    UserWorkerCommunicater currentWorker;
 
-    public UserWorkerGateway getWorker() {
-        // TODO ラウンドロビンで割り当て
+    public UserWorkerCommunicater getWorker() {
+        // TODO ロードバランサから割り当てを受ける
         if (currentWorker != null) {
             return currentWorker;
         }
-        return currentWorker = new UserWorkerGateway();
+        return currentWorker = new UserWorkerCommunicater("localhost");
     }
 
-    public UserWorkerGateway getWorker(int userID) {
-        // TODO Userの所属するWorkerを探す(なければラウンドロビンで割り当て。ないことある？)
+    public UserWorkerCommunicater getWorker(int userID) {
+        // TODO Userの所属するWorkerを探す
         // MEMO クライアントが自分でEndpointを持つ実装ならここがいらない(かも)
         return currentWorker;
+    }
+
+    public static void main(String[] args) {
+        if (args.length == 0) {// if(args.length==1){
+            UserService service = new UserService("localhost");
+            // UserService service=new UserService(args[0]);
+
+            //////////// vvvv M O C K vvvv////////////
+            Scanner s = new Scanner(System.in);
+            LoginResult ir;
+            LogoutResult or;
+            String input;
+            System.out.println("login or logout");
+            while ((input = s.nextLine()) != null) {
+                switch (input) {
+                    case "login":
+                        System.out.println("user name?");
+                        input = s.nextLine();
+                        ir = service.requestLogin(input);
+                        if (ir.getCode() == LoginResult.ResultCode.Success) {
+                            System.out.println("login succeed. userID : " + ir.getID());
+                        } else {
+                            System.out.println("login failed.");
+                        }
+                        break;
+                    case "logout":
+                        System.out.println("user id?");
+                        input = s.nextLine();
+                        or = service.requestLogout(Integer.parseInt(input));
+                        if (or.getCode() == LogoutResult.ResultCode.Success) {
+                            System.out.println("logout succeed.");
+                        } else {
+                            System.out.println("logout failed.");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                System.out.println("login or logout");
+            }
+        }
+    }
+
+    UserService(String workerEndpointURL) {
+        currentWorker = new UserWorkerCommunicater(workerEndpointURL);
     }
 
     /**
@@ -96,3 +211,5 @@ public class UserService implements IUserService {
 
     }
 }
+
+// MEMO Pub/Subでいけないか？
