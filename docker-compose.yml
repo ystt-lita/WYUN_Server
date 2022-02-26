@@ -16,9 +16,11 @@ services:
 
   db:
     volumes:
+      - ./build/db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./build/db/db:/docker-entrypoint-initdb.d
     image: mysql:oracle
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userservice
