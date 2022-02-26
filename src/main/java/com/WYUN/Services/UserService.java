@@ -48,12 +48,51 @@ public class UserService implements IUserService {
         return currentWorker;
     }
 
+    /**
+     * login to WYUN by name
+     * <h4>Endpoint</h4>
+     * <div>/api/user/login</div>
+     * <p/>
+     * <h4>Query Parameters</h4>
+     * <div>name: {@code string}</div>
+     * <div>specifies user name</div>
+     * <p/>
+     * 
+     * @param name not {@code null}
+     * @return
+     *         <p>
+     *         {@code Result.Success} if no user logged in with specified name.
+     *         userID will be provided.
+     *         </p>
+     *         <p>
+     *         {@code Result.Failed} in other cases. userID does not provided.
+     *         </p>
+     */
     public LoginResult requestLogin(String name) {
         return getWorker().login(name);
     }
 
-    public LogoutResult requestLogout(int UserID) {
-        return getWorker(UserID).logout(UserID);
+    /**
+     * logout from WYUN by userID
+     * <h4>Endpoint</h4>
+     * <div>/api/user/logout</div>
+     * <p/>
+     * <h4>Query Parameters</h4>
+     * <div>userID: {@code number}</div>
+     * <div>specifies user to logout</div>
+     * <p/>
+     * 
+     * @param userID
+     * @return
+     *         <p>
+     *         {@code Result.Success} if user with the ID logged in.
+     *         </p>
+     *         <p>
+     *         {@code Result.Failed} in other cases.
+     *         </p>
+     */
+    public LogoutResult requestLogout(int userID) {
+        return getWorker(userID).logout(userID);
 
     }
 }

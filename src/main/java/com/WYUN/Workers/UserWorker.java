@@ -38,13 +38,6 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
 
     /**
      * login to WYUN by name
-     * <h4>Endpoint</h4>
-     * <div>/api/user/login</div>
-     * <p/>
-     * <h4>Query Parameters</h4>
-     * <div>name: {@code string}</div>
-     * <div>specifies user name</div>
-     * <p/>
      * 
      * @param name not {@code null}
      * @return
@@ -79,14 +72,7 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
     }
 
     /**
-     * logout from WYUN by UserID
-     * <h4>Endpoint</h4>
-     * <div>/api/user/logout</div>
-     * <p/>
-     * <h4>Query Parameters</h4>
-     * <div>UserID: {@code number}</div>
-     * <div>specifies user to logout</div>
-     * <p/>
+     * logout from WYUN by userID
      * 
      * @param UserID provided via LoginResult
      * @return
