@@ -23,7 +23,7 @@ public class UserWorkerTest {
     static List<LoginResult> results;
 
     @BeforeClass
-    public static void init() {
+    public static void init() throws SQLException {
         try (Connection p = DriverManager.getConnection("jdbc:mysql://wyun_server_db_1:3306/userservice", "root",
                 "root")) {
             p.createStatement().executeUpdate("Delete From users;");
@@ -31,7 +31,7 @@ public class UserWorkerTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        testWorker = new UserWorker();
+        testWorker = new UserWorker("wyun_server_db_1:3306");
         results = new ArrayList<>();
     }
 
