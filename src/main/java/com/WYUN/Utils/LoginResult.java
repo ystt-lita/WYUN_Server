@@ -7,14 +7,18 @@ public class LoginResult {
     public enum ResultCode {
         Failed,
         Success;
+
+        public static ResultCode toCode(boolean c) {
+            return c ? Success : Failed;
+        }
     }
 
     private Optional<Integer> ID;
 
     private ResultCode code;
 
-    public LoginResult WithCode(ResultCode c) {
-        code = c;
+    public LoginResult Succeed(boolean c) {
+        code = ResultCode.toCode(c);
         return this;
     }
 
