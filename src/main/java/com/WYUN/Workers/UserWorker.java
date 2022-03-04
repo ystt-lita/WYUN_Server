@@ -56,7 +56,7 @@ public class UserWorker implements IUserWorker/* , IUserService */ {
             try {
                 while ((read = reader.readLine()) != null) {
                     UserQuery query = new ObjectMapper().readValue(read, UserQuery.class);
-                    System.out.println("received query tipe:" + query.type);
+                    System.out.println("received query type:" + query.type);
                     switch (query.type) {
                         case "login":
                             LoginResult ir = login(query.name);
