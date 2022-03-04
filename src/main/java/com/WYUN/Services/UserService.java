@@ -5,15 +5,19 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.WYUN.Utils.LoginResult;
 import com.WYUN.Utils.LogoutResult;
+import com.WYUN.Utils.LoginResult.ResultCode;
 import com.WYUN.Workers.IUserWorker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.log.Log;
 
 //
 /**
@@ -26,6 +30,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * あとなに
  * 
  */
+class UserQuery {
+    public String type;
+    public String name;
+    public int userID;
+}
 
 class UserQueryResult {
     public boolean result;
@@ -123,39 +132,80 @@ public class UserService implements IUserService {
             UserService service = new UserService("localhost");
             // UserService service=new UserService(args[0]);
 
-            //////////// vvvv M O C K vvvv////////////
-            Scanner s = new Scanner(System.in);
-            LoginResult ir;
-            LogoutResult or;
-            String input;
-            System.out.println("login or logout");
-            while ((input = s.nextLine()) != null) {
-                switch (input) {
-                    case "login":
-                        System.out.println("user name?");
-                        input = s.nextLine();
-                        ir = service.requestLogin(input);
-                        if (ir.getCode() == LoginResult.ResultCode.Success) {
-                            System.out.println("login succeed. userID : " + ir.getID());
-                        } else {
-                            System.out.println("login failed.");
+            try (ServerSocket s = new ServerSocket(8939)) {
+                Socket c = s.accept();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(c.getOutputStream()));
+                String read;
+                try {
+                    while ((read = reader.readLine()) != null) {
+                        UserQuery query = new ObjectMapper().readValue(read, UserQuery.class);
+                        System.out.println("received query type:" + query.type);
+                        switch (query.type) {
+                            case "login":
+                                LoginResult ir = service.requestLogin(query.name);
+                                try {
+                                    writer.write(String.format("{\"result\":%s,\"userID\":\"%s\"}",
+                                            ir.getCode() == ResultCode.Success, ir.getID()));
+                                } catch (NoSuchElementException e) {
+                                    writer.write("{\"result\":false}");
+                                } finally {
+                                    writer.newLine();
+                                    writer.flush();
+                                }
+                                break;
+
+                            case "logout":
+                                LogoutResult or = service.requestLogout(query.userID);
+                                writer.write(
+                                        String.format("{\"result\":%s}",
+                                                or.getCode() == LogoutResult.ResultCode.Success));
+                                writer.newLine();
+                                writer.flush();
                         }
-                        break;
-                    case "logout":
-                        System.out.println("user id?");
-                        input = s.nextLine();
-                        or = service.requestLogout(Integer.parseInt(input));
-                        if (or.getCode() == LogoutResult.ResultCode.Success) {
-                            System.out.println("logout succeed.");
-                        } else {
-                            System.out.println("logout failed.");
-                        }
-                        break;
-                    default:
-                        break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                System.out.println("login or logout");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+            /*
+             * //////////// vvvv M O C K vvvv////////////
+             * Scanner s = new Scanner(System.in);
+             * LoginResult ir;
+             * LogoutResult or;
+             * String input;
+             * System.out.println("login or logout");
+             * while ((input = s.nextLine()) != null) {
+             * switch (input) {
+             * case "login":
+             * System.out.println("user name?");
+             * input = s.nextLine();
+             * ir = service.requestLogin(input);
+             * if (ir.getCode() == LoginResult.ResultCode.Success) {
+             * System.out.println("login succeed. userID : " + ir.getID());
+             * } else {
+             * System.out.println("login failed.");
+             * }
+             * break;
+             * case "logout":
+             * System.out.println("user id?");
+             * input = s.nextLine();
+             * or = service.requestLogout(Integer.parseInt(input));
+             * if (or.getCode() == LogoutResult.ResultCode.Success) {
+             * System.out.println("logout succeed.");
+             * } else {
+             * System.out.println("logout failed.");
+             * }
+             * break;
+             * default:
+             * break;
+             * }
+             * System.out.println("login or logout");
+             * }
+             */
         }
     }
 
